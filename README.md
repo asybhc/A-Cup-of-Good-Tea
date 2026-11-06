@@ -8,9 +8,10 @@ Windows 上做文件去重整理的工具有不少，这一款是我自己一直
 
 - 仓库主页：<https://github.com/asybhc/A-Cup-of-Good-Tea>
 - 历史版本：[Releases](https://github.com/asybhc/A-Cup-of-Good-Tea/releases)
-- 直链下载（ASCII 名副本）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.1.0/yibeihaocha-file-organizer-v1.1.0.exe>
+- 直链下载（英文名副本）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.1.0/yibeihaocha-file-organizer-v1.1.0.exe>
+- 直链下载（拼音名副本）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.1.0/yibeihaocha-wenjian-zhengli-v1.1.0.exe>
 
-Release 里同时提供中文名 `一杯好茶.文件整理.exe` 与 ASCII 名 `yibeihaocha-file-organizer-v1.1.0.exe`，两份逐字节相同，SHA-256 一致（`FE49D9EB8B89E456378FCE07BFB098AA9E008E13AB02D10A867F5BA2637633FC`）。中文名放进 URL 会变成一长串百分号编码，复制粘贴容易断，对外引用建议用 ASCII 那份。
+GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名最终会变成 `default.exe`。所以 Release 里提供两份内容相同的副本：`yibeihaocha-file-organizer-v1.1.0.exe` 与 `yibeihaocha-wenjian-zhengli-v1.1.0.exe`，两份逐字节相同，SHA-256 一致（`FE49D9EB8B89E456378FCE07BFB098AA9E008E13AB02D10A867F5BA2637633FC`）。本地分发的文件名仍是「一杯好茶.文件整理.exe」。中文名放进 URL 会变成一长串百分号编码，复制粘贴容易断，对外引用请用上面任意一个 ASCII 直链。
 
 ***
 
