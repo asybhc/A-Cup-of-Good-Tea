@@ -4,14 +4,14 @@
 
 Windows 上做文件去重整理的工具有不少，这一款是我自己一直在用的，没有之一。
 
-**下载：[最新版 v1.1.0](https://github.com/asybhc/A-Cup-of-Good-Tea/releases/latest)**
+**下载：[最新版 v1.1.1](https://github.com/asybhc/A-Cup-of-Good-Tea/releases/latest)**
 
 - 仓库主页：<https://github.com/asybhc/A-Cup-of-Good-Tea>
 - 历史版本：[Releases](https://github.com/asybhc/A-Cup-of-Good-Tea/releases)
-- 直链下载（英文名副本）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.1.0/yibeihaocha-file-organizer-v1.1.0.exe>
-- 直链下载（拼音名副本）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.1.0/yibeihaocha-wenjian-zhengli-v1.1.0.exe>
+- 直链下载（英文名副本）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.1.1/yibeihaocha-file-organizer-v1.1.1.exe>
+- 直链下载（拼音名副本）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.1.1/yibeihaocha-wenjian-zhengli-v1.1.1.exe>
 
-GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名最终会变成 `default.exe`。所以 Release 里提供两份内容相同的副本：`yibeihaocha-file-organizer-v1.1.0.exe` 与 `yibeihaocha-wenjian-zhengli-v1.1.0.exe`，两份逐字节相同，SHA-256 一致（`FE49D9EB8B89E456378FCE07BFB098AA9E008E13AB02D10A867F5BA2637633FC`）。本地分发的文件名仍是「一杯好茶.文件整理.exe」。中文名放进 URL 会变成一长串百分号编码，复制粘贴容易断，对外引用请用上面任意一个 ASCII 直链。
+GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名最终会变成 `default.exe`。所以 Release 里提供两份内容相同的副本：`yibeihaocha-file-organizer-v1.1.1.exe` 与 `yibeihaocha-wenjian-zhengli-v1.1.1.exe`，两份逐字节相同，SHA-256 一致（`CE88E4BAC4C86217A685DC72F4AF3865303D8FFEEBCD3B4ABA19093F0356AA4C`）。本地分发的文件名仍是「一杯好茶.文件整理.exe」。中文名放进 URL 会变成一长串百分号编码，复制粘贴容易断，对外引用请用上面任意一个 ASCII 直链。
 
 ***
 
@@ -28,6 +28,8 @@ GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名�
 - **五步整理**：去前缀序号、去后缀序号、删除无意义文件名的文件、去只读属性、按类型/后缀/关键字/正则分类归档。
 
 - **按时间整理**：按拍摄时间或文件时间，自动分进「年 / 月 / 日」或「年 / 周」文件夹；可选移动或复制，同名冲突有比对去重、自动加序号、跳过三种处理。
+
+- **全盘查重**（专业版）：只扫本地固定盘，按内容找出散落在各处的重复文件，按重复组给出「建议保留」项；系统目录、分页/休眠文件永久排除，扫描只读、默认不删，勾选并二次确认后才移入回收站，可撤销。
 
 - **先看后做**：扫描预览、预演模式，改文件之前先给清单；结果可导出 HTML 报告或 CSV。
 
@@ -64,10 +66,11 @@ GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名�
 | 顶部搜索（Everything 加速）    | —   | 可用  |
 | AI 分析建议                | —   | 可用  |
 | 上传蓝奏                   | —   | 可用  |
+| 全盘查重（固定盘、建议保留、回收站删除与撤销） | —   | 可用  |
 
 - **标准版**解锁全部核心能力：扫描预览、三种去重方式与四种保留规则、合并整理、按时间整理、同名冲突与括号标题改造、撤销与回收站还原、长路径、占用解除、存疑确认、日志与报告导出、设置、托盘、快捷键。
 
-- **专业版**在标准版基础上，多了顶部搜索、AI 分析、上传蓝奏与命令行自动化。
+- **专业版**在标准版基础上，多了顶部搜索、AI 分析、上传蓝奏、全盘查重与命令行自动化。
 
 - **3 天试用**：首次运行自动开始，试用期内等同专业版，每台机器只给一次。**试用到期后软件全部锁定，必须注册才能执行任何任务操作**；主界面仍可打开，可查看配置、帮助、日志与机器码，但扫描、整理、去重、搜索、AI、上传、导出与撤销都会提示注册。
 
@@ -111,7 +114,7 @@ GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名�
 Get-FileHash -LiteralPath ".\一杯好茶.文件整理.exe" -Algorithm SHA256
 ```
 
-把输出与发布页上写的大小、SHA-256 逐位对比，一致即说明文件完整、未被篡改。当前版本：67,503,318 字节，SHA-256 `FE49D9EB8B89E456378FCE07BFB098AA9E008E13AB02D10A867F5BA2637633FC`，未签名。
+把输出与发布页上写的大小、SHA-256 逐位对比，一致即说明文件完整、未被篡改。当前版本：67,538,717 字节，SHA-256 `CE88E4BAC4C86217A685DC72F4AF3865303D8FFEEBCD3B4ABA19093F0356AA4C`，未签名。
 
 如果杀毒软件误报，先核对哈希确认来源，再把该文件加入信任/白名单，必要时把样本提交给厂商复核；不要为了运行程序关闭整个杀毒软件。
 
