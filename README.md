@@ -11,7 +11,7 @@ Windows 上做文件去重整理的工具有不少，这一款是我自己一直
 - 直链下载（英文名副本）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.1.1/yibeihaocha-file-organizer-v1.1.1.exe>
 - 直链下载（拼音名副本）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.1.1/yibeihaocha-wenjian-zhengli-v1.1.1.exe>
 
-GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名最终会变成 `default.exe`。所以 Release 里提供两份内容相同的副本：`yibeihaocha-file-organizer-v1.1.1.exe` 与 `yibeihaocha-wenjian-zhengli-v1.1.1.exe`，两份逐字节相同，SHA-256 一致（`AB00143C51CAF7817ED782BF17C3EDD7088D22AF694D65BC56BF902A3C6A9A8D`）。本地分发的文件名仍是「一杯好茶.文件整理.exe」。中文名放进 URL 会变成一长串百分号编码，复制粘贴容易断，对外引用请用上面任意一个 ASCII 直链。
+GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名最终会变成 `default.exe`。所以 Release 里提供两份内容相同的副本：`yibeihaocha-file-organizer-v1.1.1.exe` 与 `yibeihaocha-wenjian-zhengli-v1.1.1.exe`，两份逐字节相同，SHA-256 一致（`ED56B9F6F9136BE872BEC0B6775145D8CD3128844780190FFC518EEAFA6BF171`）。本地分发的文件名仍是「一杯好茶.文件整理.exe」。中文名放进 URL 会变成一长串百分号编码，复制粘贴容易断，对外引用请用上面任意一个 ASCII 直链。
 
 ***
 
@@ -39,7 +39,7 @@ GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名�
 
 - **AI 分析建议**（专业版）：让 AI 在重复文件组里建议留哪一个，只给建议，删不删仍由你勾选。
 
-- **上传蓝奏**（专业版）：把整理好的文件传到蓝奏云，网盘里已有同名同大小的文件会挑出来，不重复上传。
+- **上传蓝奏**（专业版）：把整理好的文件传到蓝奏云，网盘里已有同名同大小的文件会挑出来，不重复上传。蓝奏云与蓝奏优享都走账号密码直连官方接口；上传默认 3 路并发（可调 1–5），服务端已有相同文件时走秒传，本机记一份成功缓存（路径、大小、修改时间、MD5 全一致才跳过），可勾「强制重传」忽略缓存；结果区分「上传成功 / 秒传成功 / 跳过 / 失败」，单个失败不影响其它文件。被风控或接口调整时，可改用「高级：粘贴 appToken 密钥」降级（密钥等同于账号密码，请勿外传）。
 
 - **规则测试器**：填一段文件名，先看关键字或正则会不会命中、会被改成什么名字，不动任何文件。
 
@@ -88,15 +88,11 @@ GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名�
 
 - 不需要安装 .NET 运行库，双击即可运行。
 
-- 可选：**WebView2 运行时**（专业版「上传蓝奏」的窗口内登录用）。
-
 - 可选：**Everything**（专业版顶部搜索加速用）。
 
 **环境不具备时怎么办**
 
 - **32 位系统、Windows 7 及更早系统**：程序跑不起来，需要换 64 位的 Windows 10/11。
-
-- **没有 WebView2**：上传蓝奏的登录窗口打不开。到微软官网下载「WebView2 Runtime」安装（选 Evergreen 版），装完把本软件关掉重开；不装也能用，登录会退回「系统浏览器登录 + 手动粘贴 Cookie」。
 
 - **没装 Everything**：搜索会退回软件自带的扫描，功能不受影响，只是慢一些。想快就装上 Everything 并让它在后台运行，再重开本软件。
 
@@ -114,7 +110,7 @@ GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名�
 Get-FileHash -LiteralPath ".\一杯好茶.文件整理.exe" -Algorithm SHA256
 ```
 
-把输出与发布页上写的大小、SHA-256 逐位对比，一致即说明文件完整、未被篡改。当前版本：67,544,759 字节，SHA-256 `AB00143C51CAF7817ED782BF17C3EDD7088D22AF694D65BC56BF902A3C6A9A8D`，未签名。
+把输出与发布页上写的大小、SHA-256 逐位对比，一致即说明文件完整、未被篡改。当前版本：67,205,613 字节（约 64.09 MB），SHA-256 `ED56B9F6F9136BE872BEC0B6775145D8CD3128844780190FFC518EEAFA6BF171`，未签名。
 
 如果杀毒软件误报，先核对哈希确认来源，再把该文件加入信任/白名单，必要时把样本提交给厂商复核；不要为了运行程序关闭整个杀毒软件。
 
@@ -147,6 +143,18 @@ Get-FileHash -LiteralPath ".\一杯好茶.文件整理.exe" -Algorithm SHA256
 - 软件不含广告、不捆绑安装其他软件；卸载时删除程序文件即可。
 
 Copyright © 2026 一杯好茶。保留所有权利。
+
+***
+
+## 开源组件与许可
+
+蓝奏登录与上传的协议实现参考了以下 MIT 许可项目（仅参考接口事实，代码按本项目需要独立实现）：
+
+- **Lanzou-Next** — https://github.com/Jursin/lanzou-next — Copyright © 2026 Jursin，MIT License
+- **lanzouyun-disk** — https://github.com/chenhb23/lanzouyun-disk — Copyright © 2020 chenhb23，MIT License
+- **LanZouCloud-API** — https://github.com/zaxtyson/LanZouCloud-API — Copyright © 2019 zaxtyson，MIT License
+
+完整 MIT 许可全文见软件「注册 / 关于」窗口的【开源许可…】。
 
 ***
 
