@@ -4,25 +4,50 @@
 
 Windows 上做文件去重整理的工具有不少，这一款是我自己一直在用的，没有之一。
 
-**下载：[最新版 v1.1.1](https://github.com/asybhc/A-Cup-of-Good-Tea/releases/latest)**
+**下载：[最新版 v1.2.1](https://github.com/asybhc/A-Cup-of-Good-Tea/releases/latest)**
 
 - 仓库主页：<https://github.com/asybhc/A-Cup-of-Good-Tea>
 - 历史版本：[Releases](https://github.com/asybhc/A-Cup-of-Good-Tea/releases)
-- 直链下载（英文名副本）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.1.1/yibeihaocha-file-organizer-v1.1.1.exe>
-- 直链下载（拼音名副本）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.1.1/yibeihaocha-wenjian-zhengli-v1.1.1.exe>
+- 直链下载（便携版）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.2.1/yibeihaocha-file-organizer-v1.2.1.exe>
+- 直链下载（安装包）：<https://github.com/asybhc/A-Cup-of-Good-Tea/releases/download/v1.2.1/yibeihaocha-wenjian-zhengli-v1.2.1-setup.zip>
 
-GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名最终会变成 `default.exe`。所以 Release 里提供两份内容相同的副本：`yibeihaocha-file-organizer-v1.1.1.exe` 与 `yibeihaocha-wenjian-zhengli-v1.1.1.exe`，两份逐字节相同，SHA-256 一致（`62DED0B402264EBC5B2DFE272280C43550640E250CFF26CEAD2555CA98542B14`）。本地分发的文件名仍是「一杯好茶.文件整理.exe」。中文名放进 URL 会变成一长串百分号编码，复制粘贴容易断，对外引用请用上面任意一个 ASCII 直链。
+GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名最终会变成 `default.exe`，所以 Release 里的文件名统一用拼音/英文。本地分发的文件名仍是「一杯好茶.文件整理.exe」。中文名放进 URL 会变成一长串百分号编码，复制粘贴容易断，对外引用请用上面的 ASCII 直链。
+
+| 资产 | 字节 | SHA-256 |
+| --- | --- | --- |
+| `yibeihaocha-file-organizer-v1.2.1.exe`（便携版） | 67,366,803 | `CDCB8F80855B8B46D6493289F65C3D1323315315A08DFEA7DF2DA0DF97D5A5F8` |
+| `yibeihaocha-wenjian-zhengli-v1.2.1-setup.zip`（安装包） | 61,500,337 | `5F5C20A153AEC5751431141E9923B9DD443E470D3EE5ADDF614D17C1CB2CE798` |
 
 ### 两个版本：发行版 / 测试版
 
-本地构建会产出两个 exe，**产品名与版本号完全相同（一杯好茶.文件整理 v1.1.1），只有文件名不同**：
+本地构建会产出两个 exe，**产品名与版本号完全相同（一杯好茶.文件整理 v1.2.1），只有文件名不同**：
 
 | 文件名 | 说明 |
 | --- | --- |
 | `一杯好茶.文件整理-发行版.exe` | 对外分发的版本。不含任何账号、密码、Cookie、token；打包完成后自动扫描产物，命中任何凭据痕迹即判失败并删除产物。Release 里发布的就是这个版本。 |
 | `一杯好茶.文件整理-测试版.exe` | 作者自测用，内置加密的蓝奏优享账号，打开上传窗口自动登录。**请勿外发**：凭据以 AES-256-CBC + HMAC-SHA256 加密存放（密钥由随机盐 + 20 万轮 PBKDF2 派生），能挡住明文扫描与误发，但不防专门逆向。 |
 
-构建命令：`build.bat`（两版都打）、`build.bat release`、`build.bat test`；版本一致性由 `tools\verify_version.ps1 -Exe <两个产物>` 一起校验。
+两个版本的打包脚本与测试版凭据注入流程**不在本仓库内**，本仓库只包含程序源码，不能直接产出测试版。
+
+***
+
+## 源代码
+
+仓库内为 v1.2.1 的 C# 源码，Release 里的二进制就是用它构建的（构建后再做单文件发布）：
+
+- 解决方案：`FileDedupTool.sln`，工程目录：`src/FileDedupTool`
+- 构建：`.NET 8 SDK`，`dotnet build src/FileDedupTool/FileDedupTool.csproj -c Release -p:Platform=x64`
+- 源码为反编译后重建的工程，保留 ILSpy 生成的混淆命名，可读性不如手写代码
+
+出于安全考虑，以下内容**没有**放进本仓库，只保留在作者本地：
+
+- ECDSA 私钥导入与注册码签发相关代码（客户端只保留公钥验签）
+- KeyGen 工具与签发记录
+- 测试版内置凭据、`lanzouy_cookie.dat` 一类 Cookie/账号副本
+- 与 Go 版对拍用的临时探针（`--dump-*` 分支）与调试日志
+- 测试语料中的真实素材
+
+这些删除只影响仓库内容，**不改变已发布二进制（Release 资产）的行为**。
 
 ***
 
@@ -127,7 +152,7 @@ GitHub 附件名只能使用 ASCII，中文名会被剥离，全中文文件名�
 Get-FileHash -LiteralPath ".\一杯好茶.文件整理.exe" -Algorithm SHA256
 ```
 
-把输出与发布页上写的大小、SHA-256 逐位对比，一致即说明文件完整、未被篡改。当前版本：67,342,644 字节（约 64.22 MB），SHA-256 `62DED0B402264EBC5B2DFE272280C43550640E250CFF26CEAD2555CA98542B14`，未签名。
+把输出与发布页上写的大小、SHA-256 逐位对比，一致即说明文件完整、未被篡改。当前版本：67,366,803 字节（约 64.25 MB），SHA-256 `CDCB8F80855B8B46D6493289F65C3D1323315315A08DFEA7DF2DA0DF97D5A5F8`，未签名。
 
 如果杀毒软件误报，先核对哈希确认来源，再把该文件加入信任/白名单，必要时把样本提交给厂商复核；不要为了运行程序关闭整个杀毒软件。
 
