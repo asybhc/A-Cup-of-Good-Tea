@@ -2545,6 +2545,7 @@ namespace B
 			if (f2.ShowDialog(this) == DialogResult.OK)
 			{
 				A_34.UpdateCheckMode = f2.SelectedMode;
+				A_34.AllowUnsignedAutoUpdate = f2.AllowUnsignedAutoUpdate;
 				global::A.Y.A_m_1(A_34);
 				global::B.p.A_m_1(_657D2D75_002D39DA_002D46DB_002DB6E5_002D9A23768DC132.aDL() + ((f2.SelectedMode == _657D2D75_002D39DA_002D46DB_002DB6E5_002D9A23768DC132.aDl()) ? _657D2D75_002D39DA_002D46DB_002DB6E5_002D9A23768DC132.aDm() : _657D2D75_002D39DA_002D46DB_002DB6E5_002D9A23768DC132.aDM()));
 				if (f2.CheckRequested)

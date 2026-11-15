@@ -306,6 +306,11 @@ namespace A
 		[CompilerGenerated]
 		private int L_2 = 18;
 
+		// 自动更新：是否允许安装未通过 Authenticode 校验的更新包。
+		// 默认 false：未签名包只提示并引导到发布页手动下载。旧配置缺此键时保持 false，不判为配置损坏。
+		[CompilerGenerated]
+		private bool M_2;
+
 		[CompilerGenerated]
 		private string K_1 = _657D2D75_002D39DA_002D46DB_002DB6E5_002D9A23768DC132.D();
 
@@ -1280,6 +1285,22 @@ namespace A
 			set
 			{
 				L_2 = value;
+			}
+		}
+
+		// 自动更新：是否允许安装未签名的更新包。默认 false（仅提示 + 打开下载页）。
+		// 旧配置若缺少该键，反序列化后保持字段默认值 false，不会被当成配置损坏。
+		public bool AllowUnsignedAutoUpdate
+		{
+			[CompilerGenerated]
+			get
+			{
+				return M_2;
+			}
+			[CompilerGenerated]
+			set
+			{
+				M_2 = value;
 			}
 		}
 

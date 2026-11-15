@@ -23,8 +23,13 @@ internal sealed class F : Form
 
 	internal Button B;
 
+	// C-08 分流：是否允许安装未签名更新包（默认不勾选 = 仅提示并引导到下载页）。
+	internal CheckBox A_4;
+
 	[CompilerGenerated]
 	private bool A_3;
+
+	internal bool AllowUnsignedAutoUpdate => A_4 != null && A_4.Checked;
 
 	internal bool CheckRequested
 	{
@@ -62,7 +67,7 @@ internal sealed class F : Form
 		ShowInTaskbar = false;
 		AutoScaleMode = AutoScaleMode.Font;
 		Font = global::B.Q.A_m_1(10f);
-		ClientSize = new Size(600, 300);
+		ClientSize = new Size(600, 340);
 		TableLayoutPanel tableLayoutPanel = new TableLayoutPanel
 		{
 			Dock = DockStyle.Fill,
@@ -111,6 +116,14 @@ internal sealed class F : Form
 		A.Checked = !flag;
 		flowLayoutPanel.Controls.Add(A);
 		flowLayoutPanel.Controls.Add(a);
+		A_4 = new CheckBox
+		{
+			Text = global::a.Q.EnMode ? "Allow installing updates that fail digital signature verification (not recommended)" : "允许安装未通过数字签名校验的更新包（不推荐）",
+			AutoSize = true,
+			Checked = P_0 != null && P_0.AllowUnsignedAutoUpdate,
+			Margin = new Padding(0, 14, 0, 0)
+		};
+		flowLayoutPanel.Controls.Add(A_4);
 		groupBox.Controls.Add(flowLayoutPanel);
 		tableLayoutPanel.Controls.Add(groupBox, 0, 0);
 		A_1 = new Label

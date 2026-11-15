@@ -233,6 +233,27 @@ internal static class E
 	internal static TimeSpan CacheTtl => TimeSpan.FromHours(CacheHours);
 
 	/// <summary>
+	/// C-08 分流开关：是否允许安装未通过 Authenticode 校验的更新包。
+	/// 默认 false（未签名包不自动更新）；旧配置缺该键时同样取 false，不视为配置损坏。
+	/// </summary>
+	internal static bool AllowUnsignedAutoUpdate
+	{
+		get
+		{
+			global::A.x x2 = a_m_2();
+			return x2 != null && x2.AllowUnsignedAutoUpdate;
+		}
+	}
+
+	/// <summary>
+	/// C-08 分流：供更新对话框在安装前判定包是否通过验签。校验逻辑本身不变，只影响失败后的处置方式。
+	/// </summary>
+	internal static bool IsPackageSigned(string P_0)
+	{
+		return VerifyAuthenticode(P_0);
+	}
+
+	/// <summary>
 	/// 清单地址：测试钩子 b 优先，其次配置 UpdateManifestUrl，最后内置 GitHub 接口。
 	/// 配置值必须是 http/https 绝对地址，否则回落到内置地址。
 	/// </summary>
@@ -707,6 +728,12 @@ internal static class E
 		// 而是明确提示风险并由用户显式确认（默认按钮为“否”），避免被篡改的更新包直接落盘。
 		if (!VerifyAuthenticode(P_0))
 		{
+			// C-08 分流：禁止未签名包自动更新时，直接拒绝安装，不弹“是否继续”框，也不做任何替换。
+			// 允许时仍走原有“是否继续”确认分支（默认否），原有分支与后续重试/回滚逻辑保持不变。
+			if (!AllowUnsignedAutoUpdate)
+			{
+				return global::a.Q.EnMode ? "Automatic installation is disabled for update packages that fail digital signature verification. Please download and install it manually from the release page." : "该更新包未通过数字签名校验，已禁止自动安装。请前往发布页手动下载安装。";
+			}
 			string text7 = global::a.Q.EnMode ? "The update package is not digitally signed, or its signature could not be verified. Installing it may run tampered code. Continue anyway?" : "更新包未通过数字签名校验，可能已被篡改。继续安装存在安全风险，是否仍要继续？";
 			if (MessageBox.Show(text7, global::a.Q.A_m_1(_657D2D75_002D39DA_002D46DB_002DB6E5_002D9A23768DC132.aOG()), MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) != DialogResult.Yes)
 			{
@@ -1160,7 +1187,8 @@ internal sealed class e : Form
 		{
 			Text = global::a.Q.A_m_1(_657D2D75_002D39DA_002D46DB_002DB6E5_002D9A23768DC132.alY()),
 			AutoSize = true,
-			MaximumSize = new Size(700, 0),
+			// C-08：限制最大宽度，保证最小窗口（680）下长文案换行而不被右侧裁掉。
+			MaximumSize = new Size(600, 0),
 			ForeColor = A_3.I,
 			Margin = new Padding(0, 0, 0, 10)
 		};
@@ -1212,6 +1240,13 @@ internal sealed class e : Form
 		{
 			b_m_1();
 		};
+		// C-08 分流：清单不提供包签名状态，先按“当前程序是否签名”决定默认展示。
+		// 当前程序未签名且未允许未签名自动更新时，默认引导到下载页；「下载并更新」入口保留，
+		// 若新包实际已签名仍可正常安装；最终处置仍以下载后的验签结果为准。
+		if (!E.AllowUnsignedAutoUpdate && !E.IsPackageSigned(Environment.ProcessPath))
+		{
+			D_m_1(false);
+		}
 	}
 
 	private Button A_m_1(string P_0, bool P_1)
@@ -1277,6 +1312,34 @@ internal sealed class e : Form
 		B_1.Enabled = !P_0;
 		b_1.Enabled = !P_0;
 		C.Enabled = P_0;
+	}
+
+	/// <summary>
+	/// C-08 分流：未签名包不提供自动安装，改为提示“发现新版本”并引导到发布页手动下载。
+	/// P_0 = true：已确认下载到的包未通过验签，同时停用下载/取消按钮；
+	/// P_0 = false：仅按当前程序未签名调整默认按钮，保留「下载并更新」入口。
+	/// </summary>
+	private void D_m_1(bool P_0)
+	{
+		if (P_0)
+		{
+			A_4.Enabled = false;
+			C.Enabled = false;
+			A_5.Value = 0;
+			A_6.ForeColor = A_3.J;
+			A_6.Text = global::a.Q.EnMode ? ("New version v" + A_1.Version + " is available, but the update package failed digital signature verification. Automatic update is disabled; please use \"Open download page\" to download and install it manually.") : ("发现新版本 v" + A_1.Version + "，但该更新包未通过数字签名校验，已停止自动更新。请点「打开下载页」手动下载安装。");
+		}
+		else
+		{
+			A_6.ForeColor = A_3.I;
+			A_6.Text = global::a.Q.EnMode ? "This build is not digitally signed, so automatic update is disabled by default. Please use \"Open download page\" to download the new version manually." : "当前程序未通过数字签名校验，已默认关闭自动更新。请点「打开下载页」手动下载新版本。";
+		}
+		a_1.Text = global::a.Q.EnMode ? "Open download page" : "打开下载页";
+		a_1.Enabled = true;
+		B_1.Enabled = true;
+		b_1.Enabled = true;
+		// 未签名分流下回车默认打开下载页，避免误触发下载/安装。
+		AcceptButton = a_1;
 	}
 
 	private void b_m_1()
@@ -1366,6 +1429,21 @@ internal sealed class e : Form
 			if (!flag)
 			{
 				MessageBox.Show(this, d2.Error, global::a.Q.A_m_1(_657D2D75_002D39DA_002D46DB_002DB6E5_002D9A23768DC132.aOG()), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
+			return;
+		}
+		// C-08 分流：下载完成且摘要校验通过后，再按包实际验签结果决定处置。
+		// 未签名且未允许自动更新时，不弹“是否继续”，不替换程序，转为“发现新版本 + 打开下载页”。
+		if (!E.IsPackageSigned(d2.FilePath) && !E.AllowUnsignedAutoUpdate)
+		{
+			A_m_1(false);
+			D_m_1(true);
+			try
+			{
+				File.Delete(d2.FilePath);
+			}
+			catch
+			{
 			}
 			return;
 		}
